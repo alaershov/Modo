@@ -3,6 +3,7 @@ package com.github.terrakok.modo.android.compose
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.github.terrakok.modo.Modo
+import com.github.terrakok.modo.MultiScreen
 import com.github.terrakok.modo.NavigationState
 
 // TODO handle app finish on empty nav state
@@ -13,6 +14,10 @@ fun ModoRender(
     navigationState.chain.lastOrNull()?.let { screen ->
         when (screen) {
             is ComposeScreen -> screen.Content()
+            is MultiScreen -> {
+                val stack = remember { screen.stacks[screen.selectedStack] }
+                ModoRender(stack)
+            }
             else -> error("ComposeRender works with ComposeScreen only! Received $screen")
         }
     }
