@@ -10,17 +10,23 @@ import com.github.terrakok.modo.NavigationState
 @Composable
 fun ModoRender(
     navigationState: NavigationState,
+    multiScreenRender: @Composable (MultiScreen) -> Unit = { screen ->
+        DefaultMultiScreenRender(screen)
+    }
 ) {
     navigationState.chain.lastOrNull()?.let { screen ->
         when (screen) {
             is ComposeScreen -> screen.Content()
-            is MultiScreen -> {
-                val stack = remember { screen.stacks[screen.selectedStack] }
-                ModoRender(stack)
-            }
+            is MultiScreen -> multiScreenRender.invoke(screen)
             else -> error("ComposeRender works with ComposeScreen only! Received $screen")
         }
     }
+}
+
+@Composable
+fun DefaultMultiScreenRender(screen: MultiScreen) {
+    val stack = remember { screen.stacks[screen.selectedStack] }
+    ModoRender(stack)
 }
 
 @Composable

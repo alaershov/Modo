@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.github.terrakok.modo.NavigationState
 
 @Composable
-fun NavigationStateConsole(navigationState: NavigationState) {
+fun NavigationStateConsoleRender(navigationState: NavigationState) {
     Surface(color = Color.Black) {
         Text(
             modifier = Modifier

@@ -38,7 +38,7 @@ fun StartScreen(modo: Modo) {
                 .padding(8.dp)
                 .fillMaxWidth(),
             onClick = {
-                modo.forward(Screens.MultiStack())
+                modo.forward(Screens.Main())
             }
         ) {
             Text(text = "Multistack navigation")

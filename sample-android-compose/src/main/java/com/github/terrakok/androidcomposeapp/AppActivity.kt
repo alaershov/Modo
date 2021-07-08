@@ -10,10 +10,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.github.terrakok.modo.NavigationState
-import com.github.terrakok.modo.android.compose.ModoRender
-import com.github.terrakok.modo.android.compose.init
-import com.github.terrakok.modo.android.compose.observeAsState
-import com.github.terrakok.modo.android.compose.saveState
+import com.github.terrakok.modo.android.compose.*
 import com.github.terrakok.modo.back
 
 class AppActivity : AppCompatActivity() {
@@ -31,8 +28,13 @@ class AppActivity : AppCompatActivity() {
                 Column(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    NavigationStateConsole(navigationState)
-                    ModoRender(navigationState)
+                    NavigationStateConsoleRender(navigationState)
+                    ModoRender(navigationState) { multiScreen ->
+                        when (multiScreen.id) {
+                            "MainScreen" -> TabMultiScreenRender(multiScreen, modo)
+                            else -> DefaultMultiScreenRender(multiScreen)
+                        }
+                    }
                 }
             }
         }

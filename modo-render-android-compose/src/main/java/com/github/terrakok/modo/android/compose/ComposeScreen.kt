@@ -9,12 +9,16 @@ import com.github.terrakok.modo.Screen
 abstract class ComposeScreen(
     override val id: String
 ) : Screen, Parcelable {
+
     @Composable
     abstract fun Content()
 
     override fun toString() = "[$id]"
 }
 
+/**
+ * Utility method to create a MultiScreen holding several ComposeScreens.
+ */
 fun MultiComposeScreen(
     id: String,
     roots: List<ComposeScreen>,
@@ -25,6 +29,9 @@ fun MultiComposeScreen(
     selected
 )
 
+/**
+ * Utility method to create a Flow screen holding a single ComposeScreen.
+ */
 fun FlowComposeScreen(
     id: String,
     root: ComposeScreen

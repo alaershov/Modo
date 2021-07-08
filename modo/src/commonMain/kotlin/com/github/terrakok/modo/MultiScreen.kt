@@ -1,5 +1,10 @@
 package com.github.terrakok.modo
 
+/**
+ * Screen that holds a stack of NavigationState.
+ *
+ * You can switch between NavigationStates by changing [selectedStack] value.
+ */
 data class MultiScreen(
     override val id: String,
     val stacks: List<NavigationState>,
