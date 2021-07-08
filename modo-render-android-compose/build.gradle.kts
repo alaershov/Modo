@@ -18,7 +18,6 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
-        useIR = true
     }
 
     buildFeatures {
@@ -26,7 +25,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-beta06"
+        kotlinCompilerExtensionVersion = "1.0.0-rc01"
     }
 }
 
@@ -35,6 +34,6 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-common:2.3.1")
 
-    implementation("androidx.compose.ui:ui:1.0.0-beta06")
-    implementation("androidx.compose.foundation:foundation:1.0.0-beta06")
+    implementation("androidx.compose.ui:ui:1.0.0-rc01")
+    implementation("androidx.compose.foundation:foundation:1.0.0-rc01")
 }
