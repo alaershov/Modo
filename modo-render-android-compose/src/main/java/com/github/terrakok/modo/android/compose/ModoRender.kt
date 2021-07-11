@@ -2,31 +2,42 @@ package com.github.terrakok.modo.android.compose
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import com.github.terrakok.modo.Modo
-import com.github.terrakok.modo.MultiScreen
-import com.github.terrakok.modo.NavigationState
+import com.github.terrakok.modo.*
 
 // TODO handle app finish on empty nav state
 @Composable
-fun ModoRender(
-    navigationState: NavigationState,
-    multiScreenRender: @Composable (MultiScreen) -> Unit = { screen ->
-        DefaultMultiScreenRender(screen)
-    }
+fun MainModoRender(
+    modo: Modo,
+    render: @Composable (navigationState: NavigationState, content: @Composable () -> Unit) -> Unit
 ) {
-    navigationState.chain.lastOrNull()?.let { screen ->
-        when (screen) {
-            is ComposeScreen -> screen.Content()
-            is MultiScreen -> multiScreenRender.invoke(screen)
-            else -> error("ComposeRender works with ComposeScreen only! Received $screen")
-        }
-    }
+    val navigationState: NavigationState by modo.observeAsState()
+    ModoRender(modo, navigationState, render)
 }
 
 @Composable
-fun DefaultMultiScreenRender(screen: MultiScreen) {
-    val stack = remember { screen.stacks[screen.selectedStack] }
-    ModoRender(stack)
+fun ModoRender(
+    modo: Modo,
+    navigationState: NavigationState,
+    render: @Composable (navigationState: NavigationState, content: @Composable () -> Unit) -> Unit
+) {
+    navigationState.chain.lastOrNull()?.let { navigationStateEntry ->
+        val screen = navigationStateEntry.screen
+
+        when (navigationStateEntry) {
+            is NavigationStateScreenEntry -> {
+                when (screen) {
+                    is ComposeScreen -> render(navigationState) { screen.Content(modo) }
+                    else -> error("ModoRender for NavigationStateScreenEntry works with ComposeScreen only! Received $screen")
+                }
+            }
+            is NavigationStateMultiScreenEntry -> {
+                when (screen) {
+                    is ComposeMultiScreen -> render(navigationState) { screen.Content(modo, navigationStateEntry) }
+                    else -> error("ModoRender for NavigationStateMultiScreenEntry works with ComposeMultiScreen only! Received $screen")
+                }
+            }
+        }
+    }
 }
 
 @Composable
