@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.github.terrakok.modo.NavigationState
+import com.github.terrakok.modo.NavigationStateMultiScreenEntry
+import com.github.terrakok.modo.NavigationStateScreenEntry
 
 @Composable
 fun NavigationStateConsoleRender(navigationState: NavigationState) {
@@ -17,8 +19,23 @@ fun NavigationStateConsoleRender(navigationState: NavigationState) {
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            text = navigationState.toString(),
+            text = navigationState.toPrettyString(),
             color = Color.White
         )
     }
+}
+
+@Composable
+private fun NavigationState.toPrettyString(): String {
+    return chain.map { entry ->
+        when (entry) {
+            is NavigationStateScreenEntry -> {
+                "[${entry.screen.id}]"
+            }
+            is NavigationStateMultiScreenEntry -> {
+                "[${entry.screen.id} at ${entry.selectedStack} [${entry.stacks.map { it.toPrettyString() }}]]"
+            }
+            else -> entry.toString()
+        }
+    }.toString()
 }

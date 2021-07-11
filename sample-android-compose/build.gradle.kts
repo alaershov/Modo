@@ -47,4 +47,6 @@ dependencies {
     implementation("androidx.compose.material:material:1.0.0-rc01")
     implementation("androidx.compose.ui:ui-tooling:1.0.0-rc01")
     implementation("androidx.activity:activity-compose:1.3.0-rc01")
+
+    implementation("androidx.navigation:navigation-compose:2.4.0-alpha04")
 }

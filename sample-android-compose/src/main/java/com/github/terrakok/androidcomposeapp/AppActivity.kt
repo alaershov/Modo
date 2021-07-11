@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.github.terrakok.modo.NavigationState
-import com.github.terrakok.modo.android.compose.*
+import com.github.terrakok.modo.android.compose.MainModoRender
+import com.github.terrakok.modo.android.compose.init
+import com.github.terrakok.modo.android.compose.saveState
 import com.github.terrakok.modo.back
 
 class AppActivity : AppCompatActivity() {
@@ -20,20 +20,16 @@ class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        modo.init(savedInstanceState, Screens.Start())
+        modo.init(savedInstanceState, Screens.Start)
 
         setContent {
-            Surface(color = MaterialTheme.colors.background) {
-                val navigationState: NavigationState by modo.observeAsState()
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    NavigationStateConsoleRender(navigationState)
-                    ModoRender(navigationState) { multiScreen ->
-                        when (multiScreen.id) {
-                            "MainScreen" -> TabMultiScreenRender(multiScreen, modo)
-                            else -> DefaultMultiScreenRender(multiScreen)
-                        }
+            MainModoRender(modo) { navigationState, content ->
+                Surface(color = MaterialTheme.colors.background) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        NavigationStateConsoleRender(navigationState)
+                        content()
                     }
                 }
             }

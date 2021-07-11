@@ -1,4 +1,4 @@
-package com.github.terrakok.androidcomposeapp
+package com.github.terrakok.androidcomposeapp.content
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -7,10 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.github.terrakok.androidcomposeapp.App
+import com.github.terrakok.androidcomposeapp.Screens
 import com.github.terrakok.modo.*
 
 @Composable
-fun CommandsScreen(
+fun CommandsContent(
     modo: Modo,
     id: Int
 ) {
@@ -159,5 +161,5 @@ fun CommandsScreen(
 )
 @Composable
 fun CommandsScreenPreview() {
-    Screens.Commands(0).Content()
+    CommandsContent(App.INSTANCE.modo, 0)
 }
